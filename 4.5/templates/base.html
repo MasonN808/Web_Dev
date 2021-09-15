@@ -27,7 +27,7 @@
 </div>
 {% endblock %}
 
-{% block content %}
+{% block content0 %}
 <div class="container">
  {% for message in get_flashed_messages() %}
  <div class="alert alert-warning">
@@ -35,7 +35,7 @@
  {{ message }}
  </div>
  {% endfor %}
- {% block page_content %}{% endblock %}
+ {% block page_content0 %}{% endblock %}
 </div>
 {% endblock %}
 

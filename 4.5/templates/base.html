@@ -21,11 +21,8 @@
  </div>
 </div>
 {% endblock %}
-{% block content %}
-<div class="container">
- {% block page_content %}{% endblock %}
-</div>
-{% endblock %}
+
+
 
 {% block content0 %}
 <div class="container">
@@ -38,6 +35,17 @@
  {% block page_content0 %}{% endblock %}
 </div>
 {% endblock %}
+
+
+
+
+{% block content %}
+<div class="container">
+ {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+
 
 {% block head %}
 {{ super() }}

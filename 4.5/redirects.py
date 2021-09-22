@@ -1,9 +1,9 @@
 from flask import Flask, render_template, session, redirect, url_for, flash
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
 from flask_wtf import Form
 from wtforms import StringField, SubmitField
 from wtforms.validators import Required
-from flask_bootstrap import Bootstrap
-from flask_moment import Moment
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'

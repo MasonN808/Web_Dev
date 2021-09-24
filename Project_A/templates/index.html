@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-{% block title %}Flasky{% endblock %}
-{% block page_content %}
-<div class="page-header">
- <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
-</div>
-{{ wtf.quick_form(form) }}
+
+{% block content %}
+<h1 class="title">
+    Flask Login Example
+</h1>
+<h2 class="subtitle">
+    Create a Login page using Flask :)
+</h2>
 {% endblock %}

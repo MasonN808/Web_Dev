@@ -1,18 +1,6 @@
 from flask import Flask, render_template, session, redirect, url_for, flash
-from flask_bootstrap import Bootstrap
-from flask_moment import Moment
-from flask_wtf import Form
-from wtforms import StringField, SubmitField
-from wtforms.validators import Required
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from models import User
-from auth import auth as auth_blueprint
-from main import main as main_blueprint
-from flask import Blueprint, render_template, flash
-from flask_login import login_required, current_user
-from __init__ import create_app
-import pandas as pd
 
 # Initialize the SQLAlchemy
 db = SQLAlchemy()
@@ -34,6 +22,8 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
+    from auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
+    from main import main as main_blueprint
     app.register_blueprint(main_blueprint)
     return app

@@ -14,29 +14,6 @@ from flask_login import login_required, current_user
 from __init__ import create_app
 import pandas as pd
 
-# Initialize the SQLAlchemy
-db = SQLAlchemy()
-
-
-def make_app():
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'data-key-here'
-    # Save sql database at this path
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-    # initialize the sqlite database
-    db.init_app(app)
-    # Create instance of login manager
-    login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
-    login_manager.init_app(app)
-    from users.models import User
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.query.get(int(user_id))
-
-    app.register_blueprint(auth_blueprint)
-    app.register_blueprint(main_blueprint)
-    return app
 
 # Main blueprint
 main = Blueprint('main', __name__)

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from __init__ import create_app, db
-
+from flask_login import login_required, current_user
 # Main blueprint
 main = Blueprint('main', __name__)
 
@@ -17,7 +17,7 @@ def login():
 
 @main.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('profile.html', name = current_user.name)
 
 
 @main.route('/signup')

@@ -9,7 +9,7 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
-
+# Testing of login route
 # @main.route('/login')
 # def login():
 #     return render_template('login.html')
@@ -20,17 +20,15 @@ def index():
 def profile():
     return render_template('profile.html', name = current_user.name)
 
-
+# Testing of signup route
 # @main.route('/signup')
 # def signup():
 #     return render_template('signup.html')
 
 
 # make app
-
 app = create_app()
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=5000, debug=True)
     db.create_all(app=create_app())  # create the SQLite database
     app.run(debug=True)  # run the flask app on debug mode

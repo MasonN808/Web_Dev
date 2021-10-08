@@ -25,7 +25,7 @@ def index():
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', name = current_user.name)
+    return render_template('profile.html', name = current_user.name, email = current_user.email, password = current_user.password)
 
 # Testing of signup route
 # @main.route('/signup')
@@ -51,19 +51,19 @@ if __name__ == '__main__':
     #
     # con.close()
 
-    with open("mydump.csv", 'w') as file:
-        out_csv = csv.writer(file, lineterminator='\n')
-
-        columns = [column.name for column in inspect(User).columns][1:]
-        out_csv.writerow(columns)
-
-        session_3 = orm.sessionmaker()
-
-        extract_query = [getattr(User, col) for col in columns]
-        for mov in session_3.query(*extract_query):
-            out_csv.writerow(mov)
-
-        session_3.close()
+    # with open("mydump.csv", 'w') as file:
+    #     out_csv = csv.writer(file, lineterminator='\n')
+    #
+    #     columns = [column.name for column in inspect(User).columns][1:]
+    #     out_csv.writerow(columns)
+    #
+    #     session_3 = orm.sessionmaker()
+    #
+    #     extract_query = [getattr(User, col) for col in columns]
+    #     for mov in session_3.query(*extract_query):
+    #         out_csv.writerow(mov)
+    #
+    #     session_3.close()
 
 
     # with open('mydump.csv', 'w') as f:

@@ -23,10 +23,10 @@ def profile():
     return render_template('profile.html', name = current_user.name, email = current_user.email,
                            password = current_user.password, account_balance = current_user.account_balance)
 
-@main.route('/deposit')
-@login_required
-def deposit():
-    return render_template('deposit.html')
+# @main.route('/deposit')
+# @login_required
+# def deposit():
+#     return render_template('deposit.html')
 
 # make app
 app = create_app()

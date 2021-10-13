@@ -66,6 +66,33 @@ def signup(): # define the sign up function
         db.session.commit()
         return redirect(url_for('auth.login'))
 
+@auth.route('/deposit', methods=['GET', 'POST'])
+@login_required
+def deposit(): # define the sign up function
+    if request.method=='GET': # If the request is GET we return the
+                              # sign up page and forms
+        return render_template('signup.html')
+    else: # if the request is POST, then we check if the email
+          # doesn't already exist and then we save data
+        email = request.form.get('email')
+        name = request.form.get('name')
+        password = request.form.get('password')
+        user = User.query.filter_by(email=email).first() # if this
+                              # returns a user, then the email
+                              # already exists in database
+        if user: # if a user is found, we want to redirect back to
+                 # signup page so user can try again
+            flash('Email address already exists')
+            return redirect(url_for('auth.signup'))
+        # create a new user with the form data. Hash the password so
+        # the plaintext version isn't saved.
+        # new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
+        new_user = User(email=email, name=name, password=generate_password_hash(password), account_balance=50)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('auth.deposit'))
+
+
 @auth.route('/logout')
 @login_required
 def logout():

@@ -25,7 +25,7 @@ def index():
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', name = current_user.name, email = current_user.email, password = current_user.password)
+    return render_template('profile.html', name = current_user.name, email = current_user.email, password = current_user.password, account_balance = current_user.account_balance)
 
 # Testing of signup route
 # @main.route('/signup')

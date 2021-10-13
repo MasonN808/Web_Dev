@@ -7,4 +7,4 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
-    account_balance = db.Column(db.Numeric)
+    account_balance = db.Column(db.Float)

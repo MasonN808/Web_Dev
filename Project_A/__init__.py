@@ -10,7 +10,8 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'data-key-here'
     # Save sql database at this path
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # initialize the sqlite database
     db.init_app(app)
     # Create instance of login manager

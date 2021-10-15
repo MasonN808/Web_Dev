@@ -75,6 +75,7 @@ def deposit(): # define the sign up function
     else:
         deposit = request.form.get('deposit')
         current_user.account_balance += float(deposit)
+        current_user.account_balance = round(current_user.account_balance, 2)
         db.session.commit()
         return redirect(url_for('auth.deposit'))
 

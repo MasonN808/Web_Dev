@@ -1,6 +1,6 @@
 <div style="position: relative; width: 250px;">
   <div style="position: absolute; top: 50px; left: 426px; width: 1000px; text-align:right;">
-      {{email}}
+      <span style="color: #F1F2F1">{{email}}</span>
   </div>
 
 </div>
@@ -22,11 +22,11 @@
 
 {% block content %}
 <h1 class="title">
-    <u> Account Balance</u>
+    <u> <span style="color: #F1F2F1">Account Balance</span> </u>
 </h1>
 
 <h2 class="title">
-    ${{account_balance}}
+    <span style="color: #F1F2F1">${{account_balance}}</span>
 </h2>
 
 {% endblock %}

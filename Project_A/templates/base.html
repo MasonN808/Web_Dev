@@ -8,28 +8,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
 </head>
 <body>
-<section class="hero is-fullheight" style="background-color:#C4FCEF;">
+<section class="hero is-fullheight" style="background-color:#383B43;">
     <div class="hero-head">
         <nav class="navbar">
             <div class="container">
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
-                        <a href="{{ url_for('main.index') }}" class="navbar-item">
+                        <a href="{{ url_for('main.index') }}" class="navbar-item" style="color:#F1F2F1;">
                             Home
                         </a>
-                        <a href="{{ url_for('main.profile') }}" class="navbar-item">
+                        <a href="{{ url_for('main.profile') }}" class="navbar-item" style="color:#F1F2F1;">
                             Profile
                         </a>
-                        <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                        <a href="{{ url_for('auth.login') }}" class="navbar-item" style="color:#F1F2F1;">
                             Login
                         </a>
-                        <a href="{{ url_for('auth.signup') }}" class="navbar-item">
+                        <a href="{{ url_for('auth.signup') }}" class="navbar-item" style="color:#F1F2F1;">
                             Sign Up
                         </a>
-                        <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+                        <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="color:#F1F2F1;">
                             Logout
                         </a>
-                        <a href="{{ url_for('auth.deposit') }}" class="navbar-item">
+                        <a href="{{ url_for('auth.deposit') }}" class="navbar-item" style="color:#F1F2F1;">
                             Make a Deposit
                         </a>
                     </div>
@@ -43,24 +43,24 @@
         </div>
     </div>
     <div class="navbar-end">
-    <a href="{{ url_for('main.index') }}" class="navbar-item">
+    <a href="{{ url_for('main.index') }}" class="navbar-item" style="background-color:#F1F2F1;">
         Home
     </a>
     {% if current_user.is_authenticated %}
-    <a href="{{ url_for('main.profile') }}" class="navbar-item">
+    <a href="{{ url_for('main.profile') }}" class="navbar-item" style="background-color:#F1F2F1;">
         Profile
     </a>
     {% endif %}
     {% if not current_user.is_authenticated %}
-    <a href="{{ url_for('auth.login') }}" class="navbar-item">
+    <a href="{{ url_for('auth.login') }}" class="navbar-item" style="background-color:#F1F2F1;">
         Login
     </a>
-    <a href="{{ url_for('auth.signup') }}" class="navbar-item">
+    <a href="{{ url_for('auth.signup') }}" class="navbar-item" style="background-color:#F1F2F1;">
         Sign Up
     </a>
     {% endif %}
     {% if current_user.is_authenticated %}
-    <a href="{{ url_for('auth.logout') }}" class="navbar-item">
+    <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="background-color:#F1F2F1;">
         Logout
     </a>
     {% endif %}

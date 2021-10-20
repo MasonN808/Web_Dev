@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Flask Auth Example</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <style>
+<!--/* change the color of active or hovered links */-->
+<!--.navbar-nav .nav-item.active .nav-link,-->
+<!--.navbar-nav .nav-item:hover .nav-link {-->
+<!--    color: #F1F2F1;-->
+<!--}-->
+.navbar-item {
+  padding: 1em 0.7em;
+  transition: all 0.5s;
+}
+.navbar-link {
+    color: #000000;
+    font-size: 1.1em;
+}
+</style>
 </head>
 <body>
 <section class="hero is-fullheight" style="background-color:#383B43;">
@@ -14,9 +30,10 @@
             <div class="container">
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
-                        <a href="{{ url_for('main.index') }}" class="navbar-item" style="color:#F1F2F1;">
+                        <a href="{{ url_for('main.index') }}" class = "navbar-item" style="color:#F1F2F1;">
                             Home
                         </a>
+
                         <a href="{{ url_for('main.profile') }}" class="navbar-item" style="color:#F1F2F1;">
                             Profile
                         </a>
@@ -43,24 +60,24 @@
         </div>
     </div>
     <div class="navbar-end">
-    <a href="{{ url_for('main.index') }}" class="navbar-item" style="background-color:#F1F2F1;">
+    <a href="{{ url_for('main.index') }}" class="navbar-item" style="color:#F1F2F1;">
         Home
     </a>
     {% if current_user.is_authenticated %}
-    <a href="{{ url_for('main.profile') }}" class="navbar-item" style="background-color:#F1F2F1;">
+    <a href="{{ url_for('main.profile') }}" class="navbar-item" style="color:#F1F2F1;">
         Profile
     </a>
     {% endif %}
     {% if not current_user.is_authenticated %}
-    <a href="{{ url_for('auth.login') }}" class="navbar-item" style="background-color:#F1F2F1;">
+    <a href="{{ url_for('auth.login') }}" class="navbar-item" style="color:#F1F2F1;">
         Login
     </a>
-    <a href="{{ url_for('auth.signup') }}" class="navbar-item" style="background-color:#F1F2F1;">
+    <a href="{{ url_for('auth.signup') }}" class="navbar-item" style="color:#F1F2F1;">
         Sign Up
     </a>
     {% endif %}
     {% if current_user.is_authenticated %}
-    <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="background-color:#F1F2F1;">
+    <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="color:#F1F2F1;">
         Logout
     </a>
     {% endif %}

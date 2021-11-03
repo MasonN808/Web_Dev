@@ -5,11 +5,11 @@ import mysql.connector
 # Initialize the SQLAlchemy
 # db = SQLAlchemy()
 
-# db = mysql.connector.connect(
-#   host="127.0.0.1",
-#   user="Mason",
-#   password="Pancakes808"
-# )
+db = mysql.connector.connect(
+  host="127.0.0.1",
+  user="Mason",
+  password="Pancakes808"
+)
 
 def create_app():
     app = Flask(__name__)

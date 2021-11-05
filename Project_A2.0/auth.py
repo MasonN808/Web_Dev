@@ -1,12 +1,18 @@
+from typing import re
+
+import MySQLdb
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 
-from __init__ import db
+from __init__ import mysql
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 
 
 auth = Blueprint('auth', __name__)
+
+
+
 
 @auth.route('/login', methods=['GET', 'POST']) # define login page path
 def login(): # define login page fucntion
@@ -41,30 +47,58 @@ def login(): # define login page fucntion
 # def logout():
 #     return 'logout'
 
-@auth.route('/signup', methods=['GET', 'POST'])
-def signup(): # define the sign up function
-    if request.method=='GET': # If the request is GET we return the
-                              # sign up page and forms
-        return render_template('signup.html')
-    else: # if the request is POST, then we check if the email
-          # doesn't already exist and then we save data
-        email = request.form.get('email')
-        name = request.form.get('name')
-        password = request.form.get('password')
-        user = User.query.filter_by(email=email).first() # if this
-                              # returns a user, then the email
-                              # already exists in database
-        if user: # if a user is found, we want to redirect back to
-                 # signup page so user can try again
-            flash('Email address already exists')
-            return redirect(url_for('auth.signup'))
-        # create a new user with the form data. Hash the password so
-        # the plaintext version isn't saved.
-        # new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
-        new_user = User(email=email, name=name, password=generate_password_hash(password), account_balance=50)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('auth.login'))
+# @auth.route('/signup', methods=['GET', 'POST'])
+# def signup(): # define the sign up function
+#     if request.method=='GET': # If the request is GET we return the
+#                               # sign up page and forms
+#         return render_template('signup.html')
+#     else: # if the request is POST, then we check if the email
+#           # doesn't already exist and then we save data
+#         email = request.form.get('email')
+#         name = request.form.get('name')
+#         password = request.form.get('password')
+#         user = User.query.filter_by(email=email).first() # if this
+#                               # returns a user, then the email
+#                               # already exists in database
+#         if user: # if a user is found, we want to redirect back to
+#                  # signup page so user can try again
+#             flash('Email address already exists')
+#             return redirect(url_for('auth.signup'))
+#         # create a new user with the form data. Hash the password so
+#         # the plaintext version isn't saved.
+#         # new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
+#         new_user = User(email=email, name=name, password=generate_password_hash(password), account_balance=50)
+#         db.session.add(new_user)
+#         db.session.commit()
+#         return redirect(url_for('auth.login'))
+
+
+
+@auth.route('/signup', methods =['GET', 'POST'])
+def signup():
+    msg = ''
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form :
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE username = % s', (username, ))
+        account = cursor.fetchone()
+        if account:
+            msg = 'Account already exists !'
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            msg = 'Invalid email address !'
+        elif not re.match(r'[A-Za-z0-9]+', username):
+            msg = 'Username must contain only characters and numbers !'
+        elif not username or not password or not email:
+            msg = 'Please fill out the form !'
+        else:
+            cursor.execute('INSERT INTO accounts VALUES (NULL, % s, % s, % s)', (username, password, email, ))
+            mysql.connection.commit()
+            msg = 'You have successfully registered !'
+    elif request.method == 'POST':
+        msg = 'Please fill out the form !'
+    return render_template('signup.html', msg = msg)
 
 @auth.route('/deposit', methods=['GET', 'POST'])
 @login_required

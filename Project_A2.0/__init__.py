@@ -5,7 +5,7 @@ import mysql.connector
 # Initialize the SQLAlchemy
 # db = SQLAlchemy()
 
-db = mysql.connector.connect(
+mysql = mysql.connector.connect(
   host="127.0.0.1",
   user="Mason",
   password="Pancakes808"

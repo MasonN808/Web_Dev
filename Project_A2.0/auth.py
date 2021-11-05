@@ -1,7 +1,7 @@
 from typing import re
 
 import MySQLdb
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 
 from __init__ import mysql
 from models import User
@@ -11,54 +11,50 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 auth = Blueprint('auth', __name__)
 
-
+# @auth.route('/login', methods=['GET', 'POST']) # define login page path
+# def login(): # define login page fucntion
+#     if request.method=='GET': # if the request is a GET we return the login page
+#         return render_template('login.html')
+#     else: # if the request is POST the we check if the user exist
+#           # and with te right password
+#         email = request.form.get('email')
+#         password = request.form.get('password')
+#         remember = True if request.form.get('remember') else False
+#         user = User.query.filter_by(email=email).first()
+#         # check if the user actually exists
+#         # take the user-supplied password, hash it, and compare it
+#         # to the hashed password in the database
+#         if not user:
+#             flash('Please sign up before!')
+#             return redirect(url_for('auth.signup'))
+#         elif not check_password_hash(user.password, password):
+#             flash('Please check your login details and try again.')
+#             return redirect(url_for('auth.login')) # if the user
+#                #doesn't exist or password is wrong, reload the page
+#         # if the above check passes, then we know the user has the
+#         # right credentials
+#         login_user(user, remember=remember)
+#         return redirect(url_for('main.profile'))
 
 
 @auth.route('/login', methods=['GET', 'POST']) # define login page path
-def login(): # define login page fucntion
-    if request.method=='GET': # if the request is a GET we return the login page
-        return render_template('login.html')
-    else: # if the request is POST the we check if the user exist
-          # and with te right password
-        email = request.form.get('email')
-        password = request.form.get('password')
-        remember = True if request.form.get('remember') else False
-
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM accounts WHERE username = % s', (email,))
-    account = cursor.fetchone()
-    if account:
-        msg = 'Account already exists !'
-    elif not password or not email:
-        msg = 'Please fill out the form !'
-    else:
-        cursor.execute('INSERT INTO accounts VALUES (NULL, % s, % s)', (password, email,))
-        mysql.connection.commit()
-        msg = 'You have successfully registered !'
-
-    elif request.method == 'POST':
-        msg = 'Please fill out the form !'
-
-
-
-
-
-
-        user = User.query.filter_by(email=email).first()
-        # check if the user actually exists
-        # take the user-supplied password, hash it, and compare it
-        # to the hashed password in the database
-        if not user:
-            flash('Please sign up before!')
-            return redirect(url_for('auth.signup'))
-        elif not check_password_hash(user.password, password):
-            flash('Please check your login details and try again.')
-            return redirect(url_for('auth.login')) # if the user
-               #doesn't exist or password is wrong, reload the page
-        # if the above check passes, then we know the user has the
-        # right credentials
-        login_user(user, remember=remember)
-        return redirect(url_for('main.profile'))
+def login():
+    msg = ''
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        username = request.form['email']
+        password = request.form['password']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM accounts WHERE email = % s AND password = % s', (email, password,))
+        account = cursor.fetchone()
+        if account:
+            session['loggedin'] = True
+            session['id'] = account['id']
+            session['username'] = account['username']
+            msg = 'Logged in successfully !'
+            return render_template('main.html', msg=msg)
+        else:
+            msg = 'Incorrect username / password !'
+    return render_template('login.html', msg=msg)
 
 # @auth.route('/signup', methods = ['GET'])
 # def signup():

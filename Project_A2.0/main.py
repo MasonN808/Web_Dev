@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template
-from __init__ import create_app, db
+from __init__ import create_app, mysql
 from flask_login import login_required, current_user
 import sqlite3
 import csv
 import sqlalchemy as sqAl
 from sqlalchemy import inspect
-from models import User
+# from models import User
 import sqlalchemy.orm as orm
 
 # Main blueprint
@@ -33,6 +33,6 @@ app = create_app()
 
 if __name__ == '__main__':
 
-    db.create_all(app=create_app())  # create the SQLite database
+    # mysql.create_all(app=create_app())  # create the SQLite database
     app.run(debug=True)  # run the flask app on debug mode
 

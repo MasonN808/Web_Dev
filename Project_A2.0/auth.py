@@ -39,7 +39,7 @@ def signup():
         password = request.form['password']
         email = request.form['email']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE email = % s', (email, ))
+        cursor.execute('SELECT * FROM users WHERE email = % s', (email, ))
         account = cursor.fetchone()
         if account:
             msg = 'Account already exists !'

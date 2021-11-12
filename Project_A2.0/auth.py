@@ -1,15 +1,26 @@
 from typing import re
 
-import MySQLdb
-from flask import Blueprint, render_template, redirect, url_for, request, flash, session
+# import MySQLdb
+from flask import Flask, Blueprint, render_template, redirect, url_for, request, flash, session
 
 from __init__ import mysql
 # from models import User
 # from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
-
+from flask_mysqldb import MySQL
+import MySQLdb.cursors
 
 auth = Blueprint('auth', __name__)
+
+app.secret_key = 'your secret key'
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'your password'
+app.config['MYSQL_DB'] = 'geeklogin'
+
+
+mysql = MySQL(app)
 
 
 @auth.route('/login', methods=['GET', 'POST']) # define login page path

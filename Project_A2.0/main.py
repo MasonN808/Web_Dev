@@ -32,6 +32,7 @@
 # app = create_app()
 
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_login import login_required
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
@@ -73,6 +74,7 @@ def login():
 
 
 @app.route('/profile')
+@login_required
 def profile():
     return render_template('profile.html', name = session['name'], email = session['email'],
                            account_balance = session['account_balance'])

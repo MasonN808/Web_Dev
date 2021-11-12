@@ -66,10 +66,16 @@ def login():
             session['id'] = account['id']
             session['username'] = account['username']
             msg = 'Logged in successfully !'
-            return render_template('main.html', msg=msg)
+            return profile()
         else:
             msg = 'Incorrect username / password !'
     return render_template('login.html', msg=msg)
+
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html', name = session['name'], email = session['email'],
+                           account_balance = session['account_balance'])
 
 
 @app.route('/logout')
@@ -102,6 +108,17 @@ def signup():
     elif request.method == 'POST':
         msg = 'Please fill out the form !'
     return render_template('signup.html', msg = msg)
+
+@app.route('/deposit', methods=['GET', 'POST'])
+def deposit(): # define the sign up function
+    if request.method=='GET': # If the request is GET we return the
+                              # sign up page and forms
+        return render_template('deposit.html')
+    else:
+        deposit = request.form.get('deposit')
+        session['account_balance'] += float(deposit)
+        session['account_balance'] = round(session['account_balance'], 2)
+        return redirect(url_for('main.profile'))
 
 
 if __name__ == '__main__':

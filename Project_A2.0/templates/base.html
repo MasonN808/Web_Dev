@@ -60,24 +60,24 @@
         </div>
     </div>
     <div class="navbar-end">
-    <a href="{{ url_for('main.index') }}" class="navbar-item" style="color:#F1F2F1;">
+    <a href="{{ url_for('index') }}" class="navbar-item" style="color:#F1F2F1;">
         Home
     </a>
-    {% if current_user.is_authenticated %}
-    <a href="{{ url_for('main.profile') }}" class="navbar-item" style="color:#F1F2F1;">
+    {% if session['loggedin'] %}
+    <a href="{{ url_for('profile') }}" class="navbar-item" style="color:#F1F2F1;">
         Profile
     </a>
     {% endif %}
-    {% if not current_user.is_authenticated %}
-    <a href="{{ url_for('auth.login') }}" class="navbar-item" style="color:#F1F2F1;">
+    {% if not session['loggedin'] %}
+    <a href="{{ url_for('login') }}" class="navbar-item" style="color:#F1F2F1;">
         Login
     </a>
-    <a href="{{ url_for('auth.signup') }}" class="navbar-item" style="color:#F1F2F1;">
+    <a href="{{ url_for('signup') }}" class="navbar-item" style="color:#F1F2F1;">
         Sign Up
     </a>
     {% endif %}
-    {% if current_user.is_authenticated %}
-    <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="color:#F1F2F1;">
+    {% if session['loggedin'] %}
+    <a href="{{ url_for('logout') }}" class="navbar-item" style="color:#F1F2F1;">
         Logout
     </a>
     {% endif %}

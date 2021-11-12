@@ -44,7 +44,7 @@ app.secret_key = '12345'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'Mason'
 app.config['MYSQL_PASSWORD'] = 'Pancakes808'
-app.config['MYSQL_DB'] = 'investments'
+app.config['MYSQL_DB'] = 'investment'
 
 mysql = MySQL(app)
 
@@ -60,32 +60,38 @@ def login():
         email = request.form['email']
         password = request.form['password']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM accounts WHERE email = % s AND password = % s', (email, password,))
+        cursor.execute('SELECT * FROM users WHERE User_EMAIL = % s AND User_PASSWORD = % s', (email, password,))
         account = cursor.fetchone()
         if account:
             session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
+            session['id'] = account['User_ID']
+            session['email'] = account['User_EMAIL']
+            session['name'] = account['User']
+            session['account_balance'] = 50 #CHANGE LATER
             msg = 'Logged in successfully !'
             return profile()
         else:
-            msg = 'Incorrect username / password !'
+            msg = 'Incorrect email / password !'
     return render_template('login.html', msg=msg)
 
 
 @app.route('/profile')
-@login_required
+# @login_required
 def profile():
-    return render_template('profile.html', name = session['name'], email = session['email'],
+    if session['loggedin']:
+        return render_template('profile.html', name = session['name'], email = session['email'],
                            account_balance = session['account_balance'])
+    else:
+        return render_template('login.html')
 
 
 @app.route('/logout')
 def logout():
     session.pop('loggedin', None)
+    # session['loggedin'] = False
     session.pop('id', None)
-    session.pop('username', None)
-    return redirect(url_for('main.index'))
+    session.pop('email', None)
+    return redirect(url_for('index'))
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -95,7 +101,7 @@ def signup():
         password = request.form['password']
         email = request.form['email']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM users WHERE email = % s', (email, ))
+        cursor.execute('SELECT * FROM users WHERE USER_EMAIL = % s', (email, ))
         account = cursor.fetchone()
         if account:
             msg = 'Account already exists !'

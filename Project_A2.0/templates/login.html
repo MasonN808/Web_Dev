@@ -5,9 +5,9 @@
     <h3 class="title">   <span style="color: #F1F2F1">Login</span> </h3>
     <div class="box" style="background-color:#F1F2F1;">
         {% with messages = get_flashed_messages() %}
-{% if messages %}
+{% if msg != "" %}
     <div class="notification is-danger">
-        {{ messages[0] }}
+        {{ msg }}
     </div>
 {% endif %}
 {% endwith %}

@@ -36,6 +36,8 @@ from flask_login import login_required, LoginManager
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
+# For user ids
+import uuid
 
 app = Flask(__name__)
 
@@ -79,7 +81,6 @@ def login():
 
 
 @app.route('/profile')
-# @login_required
 def profile():
     if session.get('loggedin') == True:
         return render_template('profile.html', name = session['name'], email = session['email'],
@@ -100,9 +101,10 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     msg = ''
-    if request.method == 'POST' and 'password' in request.form and 'email' in request.form :
+    if request.method == 'POST' and 'password' in request.form and 'email' in request.form and 'name' in request.form:
         password = request.form['password']
         email = request.form['email']
+        name = request.form['name']
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM users WHERE USER_EMAIL = % s', (email, ))
         account = cursor.fetchone()
@@ -110,10 +112,11 @@ def signup():
             msg = 'Account already exists !'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = 'Invalid email address !'
-        elif not password or not email:
+        elif not password or not email or not name:
             msg = 'Please fill out the form !'
         else:
-            cursor.execute('INSERT INTO accounts VALUES (NULL, % s, % s)', (password, email, ))
+            user_id = str(uuid.uuid4())
+            cursor.execute('INSERT INTO users VALUES (% s, % s, % s, % s)', (name, user_id, email, password,))
             mysql.connection.commit()
             msg = 'You have successfully registered !'
     elif request.method == 'POST':

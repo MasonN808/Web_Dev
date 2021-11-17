@@ -86,7 +86,7 @@ def profile():
         return render_template('profile.html', name = session['name'], email = session['email'],
                         account_balance = session['account_balance'])
     else:
-        return render_template('login.html')
+        return render_template('login.html', msg = "You must login")
 
 
 @app.route('/logout')

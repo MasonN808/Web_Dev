@@ -32,7 +32,7 @@
 # app = create_app()
 
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_login import login_required
+from flask_login import login_required, LoginManager
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
 import re
@@ -47,6 +47,9 @@ app.config['MYSQL_PASSWORD'] = 'Pancakes808'
 app.config['MYSQL_DB'] = 'investment'
 
 mysql = MySQL(app)
+
+# login_manager = LoginManager()
+# login_manager.login_view = '/login'
 
 
 @app.route('/')
@@ -78,9 +81,9 @@ def login():
 @app.route('/profile')
 # @login_required
 def profile():
-    if session['loggedin']:
+    if session.get('loggedin') == True:
         return render_template('profile.html', name = session['name'], email = session['email'],
-                           account_balance = session['account_balance'])
+                        account_balance = session['account_balance'])
     else:
         return render_template('login.html')
 
